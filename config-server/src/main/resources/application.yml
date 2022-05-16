@@ -1,8 +1,9 @@
 server:
-  port: 8010
- 
+  port: 8070
   
 spring:
+  application:
+    name: config-server
   cloud:
     config:
       server:
@@ -10,6 +11,13 @@ spring:
           uri: https://github.com/geistFahrer/amazing-book-ms-config-repo
           search-paths:
           - book-service
+          - issuer-service
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
           
 logging:
   level:

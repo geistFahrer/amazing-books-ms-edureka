@@ -1,10 +1,10 @@
 server:
-  port: 8010
+  port: 8020
   
   
 spring:
   application:
-    name: book-service
+    name: issuer-service
     
   profiles:
     active: dev
@@ -19,7 +19,7 @@ management:
     web:
       exposure:
         include: "*"
-
+        
 eureka:
   client:
     register-with-eureka: true
@@ -37,3 +37,4 @@ security:
       client-secret: 123456
       grant-type: client_credentials
       scope: read
+
