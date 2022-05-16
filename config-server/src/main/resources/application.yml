@@ -8,6 +8,8 @@ spring:
       server:
         git:
           uri: https://github.com/geistFahrer/amazing-book-ms-config-repo
+          search-paths:
+          - book-service
           
 logging:
   level:
