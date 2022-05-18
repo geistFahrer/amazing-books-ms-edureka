@@ -1,4 +1,6 @@
 server:
+  servlet:
+    context-path: /issuerms
   port: 8020
   
   
@@ -13,6 +15,13 @@ spring:
   cloud:
     config:
       uri: http://localhost:8070
+  datasource:
+    url: jdbc:h2:mem:books-db
+    username: booksapp
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
       
 management:
   endpoints:
@@ -33,8 +42,14 @@ security:
       token-info-uri: http://localhost:8030/oauth/check_token//
       token-type: Bearer
     client:
-      client-id: gateway
+      client-id: bookapp
       client-secret: 123456
       grant-type: client_credentials
       scope: read
 
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    
+bookms:
+  baseUrl: http://book-service/bookms/books/

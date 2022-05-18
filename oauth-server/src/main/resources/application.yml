@@ -4,10 +4,13 @@ server:
 spring:
   application:
     name: oauth-server
-
-logging:
-  level:
-    root: DEBUG
+  profiles:
+    active: dev
+  config: 
+    import : "optional:configserver:"
+  cloud:
+    config:
+      uri: http://localhost:8070
 
 eureka:
   client:

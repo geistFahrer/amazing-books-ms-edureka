@@ -1,11 +1,13 @@
 server:
+  servlet:
+    context-path: /bookms
   port: 8010
   
   
 spring:
   application:
     name: book-service
-    
+  
   profiles:
     active: dev
   config: 
@@ -13,12 +15,22 @@ spring:
   cloud:
     config:
       uri: http://localhost:8070
+
+  datasource:
+    url: jdbc:h2:mem:books-db
+    username: booksapp
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    spring.jpa.database-platform: org.hibernate.dialect.H2Dialect
       
 management:
   endpoints:
     web:
       exposure:
         include: "*"
+      health:
+        show-details: always  
 
 eureka:
   client:
@@ -33,7 +45,12 @@ security:
       token-info-uri: http://localhost:8030/oauth/check_token//
       token-type: Bearer
     client:
-      client-id: gateway
+      client-id: bookapp
       client-secret: 123456
       grant-type: client_credentials
       scope: read
+      
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+     

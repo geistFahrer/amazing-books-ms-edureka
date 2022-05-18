@@ -1,6 +1,16 @@
 server:
   port: 8761
-  
+
+spring:
+  application:
+    name: service-registry
+  profiles:
+    active: dev
+  config: 
+    import : "optional:configserver:"
+  cloud:
+    config:
+      uri: http://localhost:8070  
   
 eureka:
   client:
