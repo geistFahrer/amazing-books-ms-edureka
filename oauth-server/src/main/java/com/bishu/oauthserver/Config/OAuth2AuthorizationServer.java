@@ -39,7 +39,7 @@ public class OAuth2AuthorizationServer extends AuthorizationServerConfigurerAdap
             .authorities("ROLE_USER","ROLE_ADMIN")
             .scopes("read","write")
             .resourceIds("oauth2-resource")
-            .redirectUris("http://localhost:8030/login")
+            .redirectUris("http://localhost:8181/login")
             .accessTokenValiditySeconds(3600)
             .refreshTokenValiditySeconds(240000);
     
