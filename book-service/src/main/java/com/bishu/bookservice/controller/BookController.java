@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bishu.bookservice.entity.Book;
+import com.bishu.bookservice.model.BookCopyUpdateRequest;
 import com.bishu.bookservice.service.BookService;
 
 @RefreshScope
@@ -74,6 +75,15 @@ public class BookController {
 		book = bookService.updateBook(book);
 		ResponseEntity<Book> response = ResponseEntity.status(HttpStatus.OK).body(book);
 		
+		return response;
+		
+	}
+	
+	@PutMapping("/update-issued-copies")
+	public ResponseEntity<String> updateBook(@RequestBody BookCopyUpdateRequest request, @RequestHeader(value="Authorization") String token){
+		System.out.println("Token :::::::::::::::::::::::::::::::::" + token);
+		bookService.updateIssuedCopies(request);
+		ResponseEntity<String> response = ResponseEntity.status(HttpStatus.OK).body("Issued copies updated");
 		return response;
 		
 	}

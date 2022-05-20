@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.bishu.issuerservice.entity.IssuedBook;
 import com.bishu.issuerservice.model.Book;
+import com.bishu.issuerservice.model.BookCopyUpdateRequest;
 import com.bishu.issuerservice.model.BookIssueRequest;
 import com.bishu.issuerservice.model.BookIssueResponse;
 import com.bishu.issuerservice.repository.IssuedBookRepository;
@@ -36,7 +37,7 @@ public class IssuerService {
 	public List<Book> getAllBooks(String token) {
 		List<Book> bookList = new ArrayList<>();
 		String url = new StringBuilder().append(bookmsDomain).append("show-all-books").toString();
-		System.out.println("URI ::::::::::::" + url);
+
 		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         headers.add("Content-Type", "application/json");
         headers.add("Authorization", token);
@@ -103,6 +104,20 @@ public class IssuerService {
 	}
 	
 	public Boolean cancelBook(Integer issueId, String token) {
+		
+        String urlToUpdateBook = new StringBuilder().append(bookmsDomain).append("update-issued-copies").toString();
+		
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+        headers.add("Content-Type", "application/json");
+        headers.add("Authorization", token);
+		
+		IssuedBook issuedBook = repository.findById(issueId).orElse(new IssuedBook());
+		BookCopyUpdateRequest request = new BookCopyUpdateRequest(issuedBook.getIsbn(),
+				issuedBook.getNoOfCopies());
+		
+		HttpEntity<BookCopyUpdateRequest> requestUpdate = new HttpEntity<>(request,headers);
+		template.exchange(urlToUpdateBook, HttpMethod.PUT, requestUpdate, String.class);
+		
 		repository.deleteById(issueId);
 		return true;
 	} 

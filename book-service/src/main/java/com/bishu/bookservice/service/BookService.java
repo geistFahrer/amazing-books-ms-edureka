@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bishu.bookservice.entity.Book;
+import com.bishu.bookservice.model.BookCopyUpdateRequest;
 import com.bishu.bookservice.repository.BookRepository;
 
 @Service
@@ -33,7 +34,12 @@ public class BookService {
 
 	public Book getBookById(Integer bookId) {
 		Book book = bookRepository.findById(bookId).orElse(new Book());
-		System.out.println("BOOKS is :::::::::::::::::::" + book);
 		return book;
+	}
+	
+	public void updateIssuedCopies(BookCopyUpdateRequest request) {
+		Book book = bookRepository.findByIsbn(request.getIsbn());
+		book.setIssuedCopies(book.getIssuedCopies() - request.getNoOfCopies());
+		bookRepository.save(book);
 	}
 }
