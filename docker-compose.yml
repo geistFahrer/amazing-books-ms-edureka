@@ -1,0 +1,61 @@
+version: "3.9"
+services:
+
+  config-server:
+    image: config-server:latest
+    ports:
+      - "8070:8070"
+    healthcheck:
+      test: ["CMD", "curl", "-I", "http://config-server:8070"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  service-registry:
+    image: service-registry:latest
+    ports:
+      - "8761:8761"
+    depends_on:
+      config-server:
+        condition: service_healthy
+
+  api-gateway:
+    image: api-gateway:latest
+    ports:
+      - "8181:8181"
+    depends_on:
+      config-server:
+        condition: service_healthy
+      service-registry:
+        condition: service_started
+
+  oauth-server:
+    image: oauth-server:latest
+    ports:
+      - "8030:8030"
+    depends_on:
+      config-server:
+        condition: service_healthy
+      service-registry:
+        condition: service_started
+
+  book-service:
+    image: book-service:latest
+    ports:
+      - "8010:8010"
+    depends_on:
+      config-server:
+        condition: service_healthy
+      service-registry:
+        condition: service_started
+
+  issuer-service:
+    image: issuer-service:latest
+    ports:
+      - "8020:8020"
+    depends_on:
+      config-server:
+        condition: service_healthy
+      service-registry:
+        condition: service_started
